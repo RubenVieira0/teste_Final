@@ -16,7 +16,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
       - name: order-service
-        image: 2030518/order-service:e90845e59cd1dd9dfe1866a6614c855fa83d35a2
+        image: 2030518/order-service:423ac724199ad76d2cf2eea8cf148e708e6c3c55
         ports:
         - containerPort: 3000
         env:
