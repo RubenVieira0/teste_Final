@@ -16,7 +16,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
       - name: virtual-customer
-        image: 2030518/virtual-customer:6c7b6ee75878022d8c7227350714d1dce9e2067b
+        image: 2030518/virtual-customer:18c2989bd015c02d9fc8525c1f72915f9fb40ffd
         env:
         - name: ORDER_SERVICE_URL
           value: http://order-service:3000/
