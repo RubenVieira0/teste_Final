@@ -16,7 +16,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
       - name: product-service
-        image: 2030518/product-service:6c7b6ee75878022d8c7227350714d1dce9e2067b
+        image: 2030518/product-service:18c2989bd015c02d9fc8525c1f72915f9fb40ffd
         ports:
         - containerPort: 3002
         env: 
