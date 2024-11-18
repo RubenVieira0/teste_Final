@@ -16,7 +16,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
       - name: makeline-service
-        image: 2030518/makeline-service:18c2989bd015c02d9fc8525c1f72915f9fb40ffd
+        image: 2030518/makeline-service:e90845e59cd1dd9dfe1866a6614c855fa83d35a2
         ports:
         - containerPort: 3001
         env:
