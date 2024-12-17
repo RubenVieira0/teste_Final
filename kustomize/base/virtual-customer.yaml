@@ -15,17 +15,17 @@ spec:
       nodeSelector:
         "kubernetes.io/os": linux
       containers:
-      - name: virtual-customer
-        image: 2030518/virtual-customer:423ac724199ad76d2cf2eea8cf148e708e6c3c55
-        env:
-        - name: ORDER_SERVICE_URL
-          value: http://order-service:3000/
-        - name: ORDERS_PER_HOUR
-          value: "100"
-        resources:
-          requests:
-            cpu: 1m
-            memory: 1Mi
-          limits:
-            cpu: 1m
-            memory: 5Mi
+        - name: virtual-customer
+          image: 2083121/aks-store-demo:virtual-customer
+          env:
+            - name: ORDER_SERVICE_URL
+              value: http://order-service:3000/
+            - name: ORDERS_PER_HOUR
+              value: "100"
+          resources:
+            requests:
+              cpu: 1m
+              memory: 1Mi
+            limits:
+              cpu: 1m
+              memory: 5Mi

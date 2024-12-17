@@ -1,35 +1,65 @@
 import grpc
 import product_service_pb2
 import product_service_pb2_grpc
-import logging
 
-logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(level=logging.INFO)
 
-def run():
-    with grpc.insecure_channel('localhost:50051') as channel:
-        stub = product_service_pb2_grpc.ProductServiceStub(channel)
-        
-        # Health Check
-        health_response = stub.GetHealth(product_service_pb2.GetProductsRequest())
-        logging.info(f"Health Check: Status: {health_response.status}, Version: {health_response.version}")
-        
-        # Add a product
-        new_product = product_service_pb2.Product(name="Test Product", price=9.99, description="A test product")
-        add_response = stub.AddProduct(product_service_pb2.AddProductRequest(product=new_product))
-        logging.info(f"Add Product: {add_response.message}")
+def main():
+    # Conectar ao servidor gRPC
+    channel = grpc.insecure_channel('localhost:50051')
+    client = product_service_pb2_grpc.ProductServiceStub(channel)
 
-        # Get all products
-        products_response = stub.GetProducts(product_service_pb2.GetProductsRequest())
-        logging.info(f"Got {len(products_response.products)} products:")
+    # Testar o HealthCheck
+    print("Testing Health Check:")
+    try:
+        health_response = client.GetHealth(product_service_pb2.GetProductsRequest())
+        print(f"Status: {health_response.status}, Version: {health_response.version}")
+    except grpc.RpcError as e:
+        print(f"Health Check Failed: {e}")
+
+    # Adicionar um produto
+    print("\nAdding a Product:")
+    try:
+        new_product = product_service_pb2.Product(name="Laptop", price=999.99, description="A powerful laptop", image="laptop.jpg")
+        add_response = client.AddProduct(product_service_pb2.AddProductRequest(product=new_product))
+        print(f"Add Product Response: {add_response.message}")
+    except grpc.RpcError as e:
+        print(f"Add Product Failed: {e}")
+
+    # Listar produtos
+    print("\nGetting List of Products:")
+    try:
+        products_response = client.GetProducts(product_service_pb2.GetProductsRequest())
         for product in products_response.products:
-            logging.info(f"  ID: {product.id}, Name: {product.name}, Price: {product.price}")
+            print(f"Product ID: {product.id}, Name: {product.name}, Price: {product.price}")
+    except grpc.RpcError as e:
+        print(f"Get Products Failed: {e}")
 
-        # Test error handling
-        invalid_product = product_service_pb2.Product(name="", price=-1)
-        try:
-            stub.AddProduct(product_service_pb2.AddProductRequest(product=invalid_product))
-        except grpc.RpcError as e:
-            logging.error(f"RPC error: {e.code()}, {e.details()}")
+    # Obter produto por ID
+    print("\nGetting Product by ID:")
+    try:
+        product_id = 1
+        product_response = client.GetProductById(product_service_pb2.GetProductByIdRequest(id=product_id))
+        print(f"Product ID: {product_response.id}, Name: {product_response.name}, Price: {product_response.price}")
+    except grpc.RpcError as e:
+        print(f"Get Product By ID Failed: {e}")
 
-if __name__ == '__main__':
-    run()
+    # Atualizar produto
+    print("\nUpdating Product:")
+    try:
+        updated_product = product_service_pb2.Product(id=1, name="Updated Laptop", price=1099.99, description="An even more powerful laptop", image="updated_laptop.jpg")
+        update_response = client.UpdateProduct(product_service_pb2.UpdateProductRequest(product=updated_product))
+        print(f"Updated Product ID: {update_response.id}, Name: {update_response.name}, Price: {update_response.price}")
+    except grpc.RpcError as e:
+        print(f"Update Product Failed: {e}")
+
+    # Eliminar produto
+    print("\nDeleting Product:")
+    try:
+        delete_response = client.DeleteProduct(product_service_pb2.DeleteProductRequest(id=1))
+        print(f"Delete Product Response: {delete_response.message}")
+    except grpc.RpcError as e:
+        print(f"Delete Product Failed: {e}")
+
+if __name__ == "__main__":
+    main()
