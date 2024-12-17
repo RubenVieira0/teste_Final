@@ -25,7 +25,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
         - name: rabbitmq
-          image: 2083121/aks-store-demo:rabbitmq
+          image: 2030518/aks-store-demo:rabbitmq
           ports:
             - containerPort: 5672
               name: rabbitmq-amqp
