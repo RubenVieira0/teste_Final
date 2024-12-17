@@ -1,13 +1,17 @@
 # Usar uma imagem base do Python
 FROM python:3.12-slim
 
-# Definir o diretório de trabalho
+# Install the necessary dependencies
+RUN pip install grpcio grpcio-tools
+
+# Copy the service files
+COPY . /app
+
+# Set the working directory
 WORKDIR /app
 
-# Copiar os arquivos necessários
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
+# Instalar as dependências necessárias diretamente
+RUN pip install --no-cache-dir grpcio grpcio-tools prometheus_client
 
 # Expor a porta que o gRPC usará
 EXPOSE 50051
