@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: product-service
-        image: 2030518/product-service:latest  # Substitua pelo nome da sua imagem Docker no Docker Hub
+        image: 2030518/aks-store-demo:product-service
         ports:
         - containerPort: 50051
 ---
